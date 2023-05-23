@@ -1,14 +1,9 @@
-import { _decorator, Component, Node } from 'cc';
+import { _decorator, Component, Node, Prefab } from 'cc';
 const { ccclass, property } = _decorator;
 
 @ccclass('GameController')
 export class GameController extends Component {
-    start() {
+  start() {}
 
-    }
-
-    update(deltaTime: number) {
-        
-    }
+  update(deltaTime: number) {}
 }
-
