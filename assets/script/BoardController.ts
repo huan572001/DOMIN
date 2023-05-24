@@ -101,7 +101,8 @@ export class BoardControler extends Component {
   }
   public openUmbrella(x: number, y: number) {
     const tmp = this.arrUmbrella[x][y].getComponent(UmbrellaController);
-    if (tmp.openAUmbrellar() === null) {
+    const checkStatus = tmp.openAUmbrellar();
+    if (checkStatus === null) {
       for (let i = x - 1; i < x + 2; i++) {
         for (let j = y - 1; j < y + 2; j++) {
           if (
@@ -117,6 +118,8 @@ export class BoardControler extends Component {
           }
         }
       }
+    } else if (checkStatus) {
+      this.gameOver();
     }
   }
   public EvenUmbrella(x: number, y: number, event: EventMouse): void {
@@ -128,5 +131,12 @@ export class BoardControler extends Component {
     }
   }
 
+  private gameOver(): void {
+    for (let i = 0; i < this._line; i++) {
+      for (let j = 0; j < this._columns; j++) {
+        this.arrUmbrella[i][j].getComponent(UmbrellaController).openBoom();
+      }
+    }
+  }
   update(deltaTime: number) {}
 }
