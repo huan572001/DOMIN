@@ -1,6 +1,7 @@
 import {
   _decorator,
   Component,
+  EventMouse,
   instantiate,
   Node,
   Prefab,
@@ -22,24 +23,11 @@ export class BoardControler extends Component {
   private umbrellar: Node = null;
 
   private arrUmbrella: Node[][] = [];
-  //   constructor(line: number, columns: number, numberOfBoom: number) {
-  //     super();
-  //     this._line = line;
-  //     this._columns = columns;
-  //     this._numberOfBoom = numberOfBoom;
-  //   }
   start() {}
   protected onLoad(): void {
     this.initBoard();
     this.initBoom();
     this.initNumberINUmbralla();
-    for (let i = 0; i < this._line; i++) {
-      for (let j = 0; j < this._columns; j++) {
-        console.log(
-          this.arrUmbrella[i][j].getComponent(UmbrellaController).number
-        );
-      }
-    }
   }
   private initBoard(): void {
     for (let i = 0; i < this._line; i++) {
@@ -50,6 +38,13 @@ export class BoardControler extends Component {
         this.arrUmbrella[i][j].setPosition(
           -(this._columns * 50) / 2 + j * 50,
           (this._line * 50) / 2 - i * 50
+        );
+        this.arrUmbrella[i][j].on(
+          Node.EventType.MOUSE_UP,
+          (e) => {
+            this.EvenUmbrella(i, j, e);
+          },
+          this
         );
       }
     }
@@ -104,5 +99,34 @@ export class BoardControler extends Component {
     }
     return count;
   }
+  public openUmbrella(x: number, y: number) {
+    const tmp = this.arrUmbrella[x][y].getComponent(UmbrellaController);
+    if (tmp.openAUmbrellar() === null) {
+      for (let i = x - 1; i < x + 2; i++) {
+        for (let j = y - 1; j < y + 2; j++) {
+          if (
+            !(
+              i < 0 ||
+              i > this._line - 1 ||
+              j < 0 ||
+              j > this._columns - 1 ||
+              (i == x && j == y)
+            )
+          ) {
+            this.openUmbrella(i, j);
+          }
+        }
+      }
+    }
+  }
+  public EvenUmbrella(x: number, y: number, event: EventMouse): void {
+    const tmp = this.arrUmbrella[x][y].getComponent(UmbrellaController);
+    if (event.getButton() === 0) {
+      this.openUmbrella(x, y);
+    } else if (event.getButton() === 2) {
+      tmp.flag();
+    }
+  }
+
   update(deltaTime: number) {}
 }
