@@ -143,6 +143,9 @@
     "__prefab": {
       "__id__": 7
     },
+    "spriteUmbrella": {
+      "__id__": 4
+    },
     "listStatusUmbrella": [
       {
         "__uuid__": "0d35eb78-74e7-41ba-b8e1-dd6d61de525b@f9941",

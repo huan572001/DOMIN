@@ -1,6 +1,7 @@
 import {
   _decorator,
   Component,
+  EventMouse,
   ImageAsset,
   Node,
   resources,
@@ -21,13 +22,27 @@ export class UmbrellaController extends Component {
   @property({ type: [SpriteFrame] })
   private listStatusUmbrella: SpriteFrame[] = [];
 
-  start() {
-    this.node.on(Node.EventType.TOUCH_START, this.openUmbrella, this);
+  start() {}
+  protected onLoad(): void {
+    this.node.on(Node.EventType.MOUSE_UP, this.openUmbrella, this);
   }
-
-  public openUmbrella(): void {
-    if (this._number > 0)
-      this.spriteUmbrella.spriteFrame = this.listStatusUmbrella[this._number];
+  public openUmbrella(event: EventMouse): void {
+    if (event.getButton() === 0) {
+      if (!this._bombExist && !this._flagged) {
+        this.spriteUmbrella.spriteFrame = this.listStatusUmbrella[this._number];
+        this._open = !this._open;
+      } else {
+        this.spriteUmbrella.spriteFrame = this.listStatusUmbrella[9];
+        //game over
+      }
+    } else if (event.getButton() === 2) {
+      if (!this._flagged) {
+        this.spriteUmbrella.spriteFrame = this.listStatusUmbrella[11];
+      } else {
+        this.spriteUmbrella.spriteFrame = this.listStatusUmbrella[10];
+      }
+      this._flagged = !this._flagged;
+    }
   }
   update(deltaTime: number) {}
   public get bombExist(): boolean {
