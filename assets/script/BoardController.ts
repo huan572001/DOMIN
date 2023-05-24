@@ -1,6 +1,7 @@
 import {
   _decorator,
   Component,
+  director,
   EventMouse,
   instantiate,
   Node,
@@ -21,6 +22,8 @@ export class BoardControler extends Component {
   private umbrellaPrefab: Prefab | null = null;
   @property({ type: Node })
   private umbrellar: Node = null;
+  @property({ type: Node })
+  private resetGame: Node = null;
 
   private arrUmbrella: Node[][] = [];
   start() {}
@@ -28,7 +31,9 @@ export class BoardControler extends Component {
     this.initBoard();
     this.initBoom();
     this.initNumberINUmbralla();
+    // this.resetGame.on(Node.EventType.MOUSE_UP, this.reset, this);
   }
+
   private initBoard(): void {
     for (let i = 0; i < this._line; i++) {
       this.arrUmbrella[i] = [];
@@ -137,6 +142,9 @@ export class BoardControler extends Component {
         this.arrUmbrella[i][j].getComponent(UmbrellaController).openBoom();
       }
     }
+  }
+  public reset(): void {
+    director.loadScene('game');
   }
   update(deltaTime: number) {}
 }
