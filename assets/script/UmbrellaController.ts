@@ -55,13 +55,14 @@ export class UmbrellaController extends Component {
 
   public openAUmbrellar(): boolean {
     if (!this._open) {
-      this._open = true;
       if (!this._flagged) {
         if (this._bombExist) {
           this.spriteUmbrella.spriteFrame = this.listStatusUmbrella[9];
           //game over
           return true;
         } else {
+          this._open = true;
+          BoardControler.blockNotOpen += 1;
           this.spriteUmbrella.spriteFrame =
             this.listStatusUmbrella[this._number];
           if (this._number === 0) {

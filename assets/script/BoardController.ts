@@ -8,24 +8,32 @@ import {
   Prefab,
   randomRange,
   Script,
+  Sprite,
+  SpriteFrame,
 } from 'cc';
 import { UmbrellaController } from './UmbrellaController';
 const { ccclass, property } = _decorator;
 
 @ccclass('BoardControler')
 export class BoardControler extends Component {
-  private _line: number = 9;
-  private _columns: number = 9;
+  private _line: number = 15;
+  private _columns: number = 15;
   private _numberOfBoom: number = 10;
   private flag: number = 0;
+  static blockNotOpen: number = 0;
   private statusGame: boolean = true;
   @property({ type: Prefab })
   private umbrellaPrefab: Prefab | null = null;
   @property({ type: Node })
   private umbrellar: Node = null;
-
   private arrUmbrella: Node[][] = [];
-  start() {}
+  @property({ type: [SpriteFrame] })
+  private iconGame: SpriteFrame[] = [];
+  @property({ type: Sprite })
+  private resetGame: Sprite;
+  start() {
+    BoardControler.blockNotOpen = 0;
+  }
   protected onLoad(): void {
     this.initBoard();
     this.initBoom();
@@ -39,9 +47,13 @@ export class BoardControler extends Component {
       for (let j = 0; j < this._columns; j++) {
         this.arrUmbrella[i][j] = instantiate(this.umbrellaPrefab);
         this.umbrellar.addChild(this.arrUmbrella[i][j]);
+        // this.arrUmbrella[i][j].setPosition(
+        //   -(this._columns * 50) / 2 + j * 50,
+        //   (this._line * 50) / 2 - i * 50
+        // );
         this.arrUmbrella[i][j].setPosition(
-          -(this._columns * 50) / 2 + j * 50,
-          (this._line * 50) / 2 - i * 50
+          this.node.position.x - (this._columns * 50) / 2 + j * 50,
+          this.node.position.y - i * 50 - 50 / 2
         );
         this.arrUmbrella[i][j].on(
           Node.EventType.MOUSE_UP,
@@ -181,8 +193,10 @@ export class BoardControler extends Component {
         if (tmp.open && tmp.number > 0) {
           if (this.checkFlagged(x, y, tmp.number))
             this.openWhenCkickNumber(x, y);
+        } else {
+          this.openUmbrella(x, y);
         }
-        this.openUmbrella(x, y);
+        this.checkWin();
       } else if (event.getButton() === 2) {
         tmp.flag();
       }
@@ -195,10 +209,20 @@ export class BoardControler extends Component {
         this.arrUmbrella[i][j].getComponent(UmbrellaController).openBoom();
       }
     }
+    this.resetGame.spriteFrame = this.iconGame[1];
     this.statusGame = false;
   }
   public reset(): void {
     director.loadScene('game');
+  }
+  private checkWin(): void {
+    if (
+      this._line * this._columns - BoardControler.blockNotOpen ===
+      this._numberOfBoom
+    ) {
+      this.resetGame.spriteFrame = this.iconGame[2];
+      this.statusGame = false;
+    }
   }
   update(deltaTime: number) {}
 }
