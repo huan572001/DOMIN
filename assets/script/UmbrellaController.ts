@@ -1,5 +1,6 @@
 import {
   _decorator,
+  Button,
   Component,
   EventMouse,
   ImageAsset,
@@ -37,7 +38,9 @@ export class UmbrellaController extends Component {
   public get open(): boolean {
     return this._open;
   }
-
+  public get flagged(): boolean {
+    return this._flagged;
+  }
   public openBoom() {
     if (!this._open) {
       if (this._flagged) {
@@ -58,12 +61,11 @@ export class UmbrellaController extends Component {
         if (this._number === 0) {
           return null;
         }
-      } else {
+      } else if (this._bombExist && !this._flagged) {
         this.spriteUmbrella.spriteFrame = this.listStatusUmbrella[9];
-        console.log('aaa');
-
         //game over
         return true;
+      } else {
       }
     }
 
