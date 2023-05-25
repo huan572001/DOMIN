@@ -56,16 +56,22 @@ export class UmbrellaController extends Component {
   public openAUmbrellar(): boolean {
     if (!this._open) {
       this._open = true;
-      if (!this._bombExist && !this._flagged) {
-        this.spriteUmbrella.spriteFrame = this.listStatusUmbrella[this._number];
-        if (this._number === 0) {
-          return null;
+      if (!this._flagged) {
+        if (this._bombExist) {
+          this.spriteUmbrella.spriteFrame = this.listStatusUmbrella[9];
+          //game over
+          return true;
+        } else {
+          this.spriteUmbrella.spriteFrame =
+            this.listStatusUmbrella[this._number];
+          if (this._number === 0) {
+            return null;
+          }
         }
-      } else if (this._bombExist && !this._flagged) {
-        this.spriteUmbrella.spriteFrame = this.listStatusUmbrella[9];
-        //game over
-        return true;
       } else {
+        if (!this._bombExist) {
+          this.spriteUmbrella.spriteFrame = this.listStatusUmbrella[13];
+        }
       }
     }
 
