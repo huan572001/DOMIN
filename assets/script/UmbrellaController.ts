@@ -9,6 +9,7 @@ import {
   Sprite,
   SpriteFrame,
   Texture2D,
+  UITransform,
 } from 'cc';
 import { BoardControler } from './BoardController';
 const { ccclass, property } = _decorator;
@@ -41,7 +42,7 @@ export class UmbrellaController extends Component {
   public get flagged(): boolean {
     return this._flagged;
   }
-  public openBoom() {
+  public openBoom(): void {
     if (!this._open) {
       if (this._flagged) {
         if (!this._bombExist) {

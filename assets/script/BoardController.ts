@@ -7,21 +7,23 @@ import {
   Node,
   Prefab,
   randomRange,
-  Script,
   Sprite,
   SpriteFrame,
+  UITransform,
+  view,
 } from 'cc';
 import { UmbrellaController } from './UmbrellaController';
 const { ccclass, property } = _decorator;
 
 @ccclass('BoardControler')
 export class BoardControler extends Component {
-  private _line: number = 15;
-  private _columns: number = 15;
+  private _line: number = 10;
+  private _columns: number = 10;
   private _numberOfBoom: number = 10;
   private flag: number = 0;
   static blockNotOpen: number = 0;
   private statusGame: boolean = true;
+  private sizeBlock: number = 50;
   @property({ type: Prefab })
   private umbrellaPrefab: Prefab | null = null;
   @property({ type: Node })
@@ -42,19 +44,28 @@ export class BoardControler extends Component {
   }
 
   private initBoard(): void {
+    const sizeScreen = view.getVisibleSize();
+    if (sizeScreen.width > sizeScreen.height) {
+      this.sizeBlock = sizeScreen.height / (this._columns + 1);
+    } else {
+      this.sizeBlock = sizeScreen.width / this._columns;
+    }
+
     for (let i = 0; i < this._line; i++) {
       this.arrUmbrella[i] = [];
       for (let j = 0; j < this._columns; j++) {
         this.arrUmbrella[i][j] = instantiate(this.umbrellaPrefab);
         this.umbrellar.addChild(this.arrUmbrella[i][j]);
-        // this.arrUmbrella[i][j].setPosition(
-        //   -(this._columns * 50) / 2 + j * 50,
-        //   (this._line * 50) / 2 - i * 50
-        // );
         this.arrUmbrella[i][j].setPosition(
-          this.node.position.x - (this._columns * 50) / 2 + j * 50,
-          this.node.position.y - i * 50 - 50 / 2
+          this.node.position.x -
+            (this._columns * this.sizeBlock) / 2 +
+            j * this.sizeBlock +
+            this.sizeBlock / 2,
+          this.node.position.y - i * this.sizeBlock - this.sizeBlock / 2
         );
+        this.arrUmbrella[i][j]
+          .getComponent(UITransform)
+          .setContentSize(this.sizeBlock, this.sizeBlock);
         this.arrUmbrella[i][j].on(
           Node.EventType.MOUSE_UP,
           (e) => {
