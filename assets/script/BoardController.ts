@@ -138,12 +138,13 @@ export class BoardControler extends Component {
             (i == x && j == y)
           )
         ) {
-          if (
-            this.arrUmbrella[i][j]
-              .getComponent(UmbrellaController)
-              .openAUmbrellar()
-          ) {
+          const status = this.arrUmbrella[i][j]
+            .getComponent(UmbrellaController)
+            .openAUmbrellar();
+          if (status) {
             this.gameOver();
+          } else if (status === null) {
+            this.openWhenCkickNumber(i, j);
           }
         }
       }
