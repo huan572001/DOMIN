@@ -17,6 +17,7 @@ import {
 } from 'cc';
 import { UmbrellaController } from './UmbrellaController';
 import { Store } from './Store';
+import { Clock } from './Clock';
 const { ccclass, property } = _decorator;
 
 @ccclass('BoardControler')
@@ -25,7 +26,6 @@ export class BoardControler extends Component {
   private _columns: number = 10;
   private _numberOfBoom: number = 10;
   private flag: number = 0;
-
   static blockNotOpen: number = 0;
   private statusGame: boolean = true;
   private sizeBlock: number = 50;
@@ -38,10 +38,15 @@ export class BoardControler extends Component {
   private iconGame: SpriteFrame[] = [];
   @property({ type: Sprite })
   private resetGame: Sprite;
-  @property({ type: Label })
-  private boomLabel: Label;
   @property({ type: UITransform })
   private menuFrame: UITransform;
+
+  @property({ type: Node })
+  private boom: Node;
+  @property({ type: Prefab })
+  private numberPrefab: Prefab | null = null;
+  private arrClock: Node[] = [];
+
   start() {
     BoardControler.blockNotOpen = 0;
   }
@@ -50,6 +55,7 @@ export class BoardControler extends Component {
     this.initBoard();
     this.initBoom();
     this.initNumberINUmbralla();
+    this.initClock();
     // this.resetGame.on(Node.EventType.MOUSE_UP, this.reset, this);
   }
 
@@ -59,7 +65,6 @@ export class BoardControler extends Component {
     this._columns = store.line;
     this._numberOfBoom = store.boom;
     this.flag = this._numberOfBoom;
-    this.boomLabel.string = this._numberOfBoom.toString();
   }
   private initBoard(): void {
     const sizeScreen = view.getVisibleSize();
@@ -78,13 +83,6 @@ export class BoardControler extends Component {
       for (let j = 0; j < this._columns; j++) {
         this.arrUmbrella[i][j] = instantiate(this.umbrellaPrefab);
         this.umbrellar.addChild(this.arrUmbrella[i][j]);
-        // this.arrUmbrella[i][j].setPosition(
-        //   this.node.position.x -
-        //     (this._columns * this.sizeBlock) / 2 +
-        //     j * this.sizeBlock +
-        //     this.sizeBlock / 2,
-        //   this.node.position.y - i * this.sizeBlock - this.sizeBlock / 2
-        // );
         this.arrUmbrella[i][j].setPosition(
           -X / 2 + j * this.sizeBlock + this.sizeBlock / 2 + 7,
           Y / 2 - i * this.sizeBlock - this.sizeBlock / 2 - 7
@@ -129,7 +127,6 @@ export class BoardControler extends Component {
     }
   }
   private bombsAround(x: number, y: number): number {
-    // phải check lại
     let count = 0;
     for (let i = x - 1; i < x + 2; i++) {
       for (let j = y - 1; j < y + 2; j++) {
@@ -151,6 +148,24 @@ export class BoardControler extends Component {
       }
     }
     return count;
+  }
+  private setBoomHaveFlag(num: number): void {
+    if (num >= 0) {
+      let tmp = num;
+
+      for (let i = 2; i >= 0; i--) {
+        this.arrClock[i].getComponent(Clock).setNumber(tmp % 10);
+        tmp = Math.floor(tmp / 10);
+      }
+    }
+  }
+  private initClock(): void {
+    for (let i = 0; i < 3; i++) {
+      this.arrClock[i] = instantiate(this.numberPrefab);
+      this.boom.addChild(this.arrClock[i]);
+      this.arrClock[i].setPosition(i * 13, this.boom.position.y);
+    }
+    this.setBoomHaveFlag(this._numberOfBoom);
   }
   public openUmbrella(x: number, y: number) {
     const tmp = this.arrUmbrella[x][y].getComponent(UmbrellaController);
@@ -243,7 +258,7 @@ export class BoardControler extends Component {
           } else {
             this.flag -= 1;
           }
-          this.boomLabel.string = this.flag.toString();
+          this.setBoomHaveFlag(this.flag);
         }
         tmp.flag();
       }
