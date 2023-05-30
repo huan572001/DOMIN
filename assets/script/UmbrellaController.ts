@@ -24,6 +24,8 @@ export class UmbrellaController extends Component {
   private spriteUmbrella: Sprite;
   @property({ type: [SpriteFrame] })
   private listStatusUmbrella: SpriteFrame[] = [];
+
+  instanceBoard: BoardControler;
   public get bombExist(): boolean {
     return this._bombExist;
   }
