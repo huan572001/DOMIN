@@ -61,6 +61,7 @@ export class UmbrellaController extends Component {
       if (!this._flagged) {
         if (this._bombExist) {
           this.spriteUmbrella.spriteFrame = this.listStatusUmbrella[9];
+          this._open = true;
           //game over
           return true;
         } else {

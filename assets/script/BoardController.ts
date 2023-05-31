@@ -18,6 +18,7 @@ import {
 import { UmbrellaController } from './UmbrellaController';
 import { Store } from './Store';
 import { Clock } from './Clock';
+import { GameController } from './GameController';
 const { ccclass, property } = _decorator;
 
 @ccclass('BoardControler')
@@ -40,11 +41,15 @@ export class BoardControler extends Component {
   private resetGame: Sprite;
   @property({ type: UITransform })
   private menuFrame: UITransform;
-
   @property({ type: Node })
   private boom: Node;
   @property({ type: Prefab })
   private numberPrefab: Prefab | null = null;
+
+  @property({ type: Node })
+  private winGame: Node | null = null;
+  @property({ type: Label })
+  private timeWin: Label | null = null;
   private arrClock: Node[] = [];
 
   start() {
@@ -68,11 +73,20 @@ export class BoardControler extends Component {
   }
   private initBoard(): void {
     const sizeScreen = view.getVisibleSize();
-    if (sizeScreen.width > sizeScreen.height) {
-      this.sizeBlock = (sizeScreen.height - 75) / this._columns;
+    if (this._line === this._columns) {
+      if (sizeScreen.width > sizeScreen.height) {
+        this.sizeBlock = (sizeScreen.height - 75) / this._columns;
+      } else {
+        this.sizeBlock = sizeScreen.width / this._line;
+      }
     } else {
-      this.sizeBlock = sizeScreen.width / this._line;
+      if (sizeScreen.width / this._columns > sizeScreen.height / this._line) {
+        this.sizeBlock = sizeScreen.height / this._line;
+      } else {
+        this.sizeBlock = sizeScreen.width / this._columns;
+      }
     }
+
     const X = this._columns * this.sizeBlock + 20;
     const Y = this._line * this.sizeBlock + 20;
     const contentSize = new Size(X, Y);
@@ -280,7 +294,10 @@ export class BoardControler extends Component {
       this._numberOfBoom
     ) {
       this.resetGame.spriteFrame = this.iconGame[2];
+      this.winGame.active = true;
+      this.timeWin.string = GameController.time.toString();
       this.statusGame = false;
+      GameController.statusGame = true;
     }
   }
   update(deltaTime: number) {}
