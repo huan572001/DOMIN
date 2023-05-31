@@ -29,21 +29,21 @@ export class MenuController extends Component {
     this.onRating9x9();
   }
   private onScreenGame9X9(): void {
-    this.initGame.line = this.initGame.column = 9;
-    this.initGame.boom = 10;
+    this.initGame.line = this.initGame.column = Constant.level9x9.line;
+    this.initGame.boom = Constant.level9x9.boom;
     director.addPersistRootNode(this.store);
     director.loadScene(Constant.screenGame);
   }
   private onScreenGame16X16(): void {
-    this.initGame.line = this.initGame.column = 16;
-    this.initGame.boom = 40;
+    this.initGame.line = this.initGame.column = Constant.level16x16.line;
+    this.initGame.boom = Constant.level16x16.boom;
     director.addPersistRootNode(this.store);
     director.loadScene(Constant.screenGame);
   }
   private onScreenGame30X16(): void {
-    this.initGame.line = 30;
-    this.initGame.column = 16;
-    this.initGame.boom = 100;
+    this.initGame.line = Constant.level30x16.line;
+    this.initGame.column = Constant.level30x16.column;
+    this.initGame.boom = Constant.level30x16.boom;
     director.addPersistRootNode(this.store);
     director.loadScene(Constant.screenGame);
   }
@@ -52,21 +52,25 @@ export class MenuController extends Component {
   }
   private onRating9x9(): void {
     let arrTop: any[] = JSON.parse(
-      localStorage.getItem('beginner') ? localStorage.getItem('beginner') : '[]'
+      localStorage.getItem(Constant.beginner)
+        ? localStorage.getItem(Constant.beginner)
+        : '[]'
     );
     this.setRatingLabel(arrTop);
   }
   private onRating16x16(): void {
     let arrTop: any[] = JSON.parse(
-      localStorage.getItem('Intermediate')
-        ? localStorage.getItem('Intermediate')
+      localStorage.getItem(Constant.Intermediate)
+        ? localStorage.getItem(Constant.Intermediate)
         : '[]'
     );
     this.setRatingLabel(arrTop);
   }
   private onRating30x16(): void {
     let arrTop: any[] = JSON.parse(
-      localStorage.getItem('Expert') ? localStorage.getItem('Expert') : '[]'
+      localStorage.getItem(Constant.Expert)
+        ? localStorage.getItem(Constant.Expert)
+        : '[]'
     );
     this.setRatingLabel(arrTop);
   }

@@ -23,13 +23,13 @@ const { ccclass, property } = _decorator;
 
 @ccclass('BoardControler')
 export class BoardControler extends Component {
-  private _line: number = 10;
-  private _columns: number = 10;
-  private _numberOfBoom: number = 10;
-  private flag: number = 0;
-  static blockNotOpen: number = 0;
+  private _line: number;
+  private _columns: number;
+  private _numberOfBoom: number;
+  private flag: number;
+  static blockNotOpen: number;
   private statusGame: boolean = true;
-  private sizeBlock: number = 50;
+  private sizeBlock: number;
   @property({ type: Prefab })
   private umbrellaPrefab: Prefab | null = null;
   @property({ type: Node })

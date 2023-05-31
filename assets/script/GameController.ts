@@ -74,23 +74,25 @@ export class GameController extends Component {
     let level: string;
     if (store.boom === 10) {
       arrTop = JSON.parse(
-        localStorage.getItem('beginner')
-          ? localStorage.getItem('beginner')
+        localStorage.getItem(Constant.beginner)
+          ? localStorage.getItem(Constant.beginner)
           : '[]'
       );
-      level = 'beginner';
+      level = Constant.beginner;
     } else if (store.boom === 40) {
       arrTop = JSON.parse(
-        localStorage.getItem('Intermediate')
-          ? localStorage.getItem('Intermediate')
+        localStorage.getItem(Constant.Intermediate)
+          ? localStorage.getItem(Constant.Intermediate)
           : '[]'
       );
-      level = 'Intermediate';
+      level = Constant.Intermediate;
     } else {
       arrTop = JSON.parse(
-        localStorage.getItem('Expert') ? localStorage.getItem('Expert') : '[]'
+        localStorage.getItem(Constant.Expert)
+          ? localStorage.getItem(Constant.Expert)
+          : '[]'
       );
-      level = 'Expert';
+      level = Constant.Expert;
     }
 
     arrTop.push({
