@@ -50,6 +50,8 @@ export class BoardControler extends Component {
   private winGame: Node | null = null;
   @property({ type: Label })
   private timeWin: Label | null = null;
+  @property({ type: Node })
+  private loseGame: Node | null = null;
   private arrClock: Node[] = [];
 
   start() {
@@ -286,6 +288,8 @@ export class BoardControler extends Component {
     }
     this.resetGame.spriteFrame = this.iconGame[1];
     this.statusGame = false;
+    this.loseGame.active = true;
+    director.pause();
   }
 
   private checkWin(): void {

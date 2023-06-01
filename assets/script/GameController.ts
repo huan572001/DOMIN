@@ -22,7 +22,6 @@ type TopUser = {
 @ccclass('GameController')
 export class GameController extends Component {
   static time: number = 0;
-  private startTime: number;
   @property({ type: Node })
   private clock: Node;
   @property({ type: Prefab })
@@ -36,25 +35,23 @@ export class GameController extends Component {
     this.initClock();
   }
   protected update(dt: number): void {
-    if (GameController.statusGame === null) this.stopTimer();
+    // if (GameController.statusGame === null) this.stopTimer();
   }
   private startTimer() {
-    this.startTime = Date.now(); // Lưu thời gian bắt đầu
-  }
-  private stopTimer() {
-    if (this.startTime !== 0) {
-      const endTime = Date.now(); // Lấy thời gian hiện tại
-      const elapsedTime = endTime - this.startTime; // Tính thời gian đã trôi qua
-      if (GameController.time !== Math.floor(elapsedTime / 1000)) {
-        GameController.time = Math.floor(elapsedTime / 1000);
+    this.schedule(
+      function () {
+        GameController.time += 1;
         let tmp = GameController.time;
         // console.log(this.time);
         for (let i = 2; i >= 0; i--) {
           this.arrClock[i].getComponent(Clock).setNumber(tmp % 10);
           tmp = Math.floor(tmp / 10);
         }
-      }
-    }
+      },
+      1,
+      999,
+      1
+    );
   }
   private initClock(): void {
     for (let i = 0; i < 3; i++) {
@@ -66,6 +63,7 @@ export class GameController extends Component {
   public reset(): void {
     GameController.statusGame = null;
     GameController.time = 0;
+    director.resume();
     director.loadScene(Constant.screenGame);
   }
   private savePoint() {

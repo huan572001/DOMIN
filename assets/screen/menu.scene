@@ -1483,8 +1483,8 @@
     "_prefab": null,
     "_lpos": {
       "__type__": "cc.Vec3",
-      "x": -5.154999999999999,
-      "y": 3.9849999999999994,
+      "x": 0,
+      "y": 8.096,
       "z": 0
     },
     "_lrot": {
@@ -1521,7 +1521,7 @@
     "__prefab": null,
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 203.44,
+      "width": 180,
       "height": 50.4
     },
     "_anchorPoint": {
@@ -1553,11 +1553,11 @@
     "_string": "Ratings",
     "_horizontalAlign": 1,
     "_verticalAlign": 1,
-    "_actualFontSize": 60,
-    "_fontSize": 60,
+    "_actualFontSize": 50,
+    "_fontSize": 50,
     "_fontFamily": "Arial",
     "_lineHeight": 40,
-    "_overflow": 0,
+    "_overflow": 3,
     "_enableWrapText": true,
     "_font": null,
     "_isSystemFontUsed": true,
@@ -2819,7 +2819,7 @@
     },
     "component": "",
     "_componentId": "c3485Pe0+5MKLcvCe2j1MbW",
-    "handler": "onRating30x16",
+    "handler": "onRating16x16",
     "customEventData": ""
   },
   {
