@@ -344,7 +344,13 @@ export class BoardControler extends Component {
       }
     }
   }
-  // private onAudio() {}
+  private onAudio() {
+    for (let i = 0; i < this._line; i++) {
+      for (let j = 0; j < this._columns; j++) {
+        this.arrUmbrella[i][j].getComponent(UmbrellaController).offVolume();
+      }
+    }
+  }
   private gameOver(): void {
     for (let i = 0; i < this._line; i++) {
       for (let j = 0; j < this._columns; j++) {

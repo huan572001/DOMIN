@@ -13,6 +13,7 @@ import {
   UITransform,
 } from 'cc';
 import { BoardControler } from './BoardController';
+import { Constant } from './constant';
 const { ccclass, property } = _decorator;
 
 @ccclass('UmbrellaController')
@@ -31,9 +32,21 @@ export class UmbrellaController extends Component {
   private btnblock: Button;
   @property({ type: AudioSource })
   private audio: AudioSource;
-  // public offVolume(num: number): void {
-  //   this.audio.volume = num;
-  // }
+  protected start(): void {
+    let volume = localStorage.getItem(Constant.audio);
+    if (volume) {
+      if (volume === '0') {
+        this.audio.volume = 0;
+      }
+    }
+  }
+  public offVolume(): void {
+    if (this.audio.volume === 0) {
+      this.audio.volume = 0.5;
+    } else {
+      this.audio.volume = 0;
+    }
+  }
   public get btn(): Button {
     return this.btnblock;
   }

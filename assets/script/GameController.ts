@@ -43,6 +43,7 @@ export class GameController extends Component {
   protected start(): void {
     this.startTimer();
     this.initClock();
+    this.startAudio();
   }
   protected update(dt: number): void {
     // if (GameController.statusGame === null) this.stopTimer();
@@ -50,16 +51,30 @@ export class GameController extends Component {
   private onRropdownMenu(): void {
     this.dropDownSetting.active = !this.dropDownSetting.active;
   }
+  private startAudio(): void {
+    let volume = localStorage.getItem(Constant.audio);
+    if (volume) {
+      if (volume === '0') {
+        this.audioOpen.active = true;
+        this.audioClose.active = false;
+      }
+      this.arrAudio.forEach((element) => {
+        element.volume = Number(volume);
+      });
+    }
+  }
   private onAudio(): void {
+    let volume = 1;
     this.audioOpen.active = this.audioClose.active;
     this.audioClose.active = !this.audioClose.active;
+
+    if (this.audioOpen.active) {
+      volume = 0;
+    }
     this.arrAudio.forEach((element) => {
-      if (this.audioOpen.active) {
-        element.volume = 1;
-      } else {
-        element.volume = 0;
-      }
+      element.volume = volume;
     });
+    localStorage.setItem(Constant.audio, volume.toString());
   }
   private startTimer() {
     this.schedule(

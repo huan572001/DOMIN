@@ -3,6 +3,7 @@ export class Constant {
   static beginner: string = 'beginner';
   static Intermediate: string = 'Intermediate';
   static Expert: string = 'Expert';
+  static audio: string = 'audio';
   static level9x9: any = {
     line: 9,
     column: 9,
