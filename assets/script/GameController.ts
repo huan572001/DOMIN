@@ -41,6 +41,7 @@ export class GameController extends Component {
 
   private arrClock: Node[] = [];
   protected start(): void {
+    GameController.time = 0;
     this.startTimer();
     this.initClock();
     this.startAudio();
