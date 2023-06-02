@@ -207,6 +207,9 @@
         "__expectedType__": "cc.SpriteFrame"
       }
     ],
+    "btnblock": {
+      "__id__": 8
+    },
     "_id": ""
   },
   {
@@ -226,7 +229,7 @@
     },
     "clickEvents": [],
     "_interactable": true,
-    "_transition": 1,
+    "_transition": 2,
     "_normalColor": {
       "__type__": "cc.Color",
       "r": 255,
@@ -244,8 +247,8 @@
     "_pressedColor": {
       "__type__": "cc.Color",
       "r": 255,
-      "g": 255,
-      "b": 255,
+      "g": 8,
+      "b": 8,
       "a": 255
     },
     "_disabledColor": {
@@ -261,10 +264,15 @@
     },
     "_hoverSprite": null,
     "_pressedSprite": null,
-    "_disabledSprite": null,
+    "_disabledSprite": {
+      "__uuid__": "58ea3d45-0906-478c-927b-78ddfeae86a9@f9941",
+      "__expectedType__": "cc.SpriteFrame"
+    },
     "_duration": 0.1,
     "_zoomScale": 1.2,
-    "_target": null,
+    "_target": {
+      "__id__": 1
+    },
     "_id": ""
   },
   {

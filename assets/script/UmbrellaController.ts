@@ -20,12 +20,20 @@ export class UmbrellaController extends Component {
   private _flagged: boolean = false;
   private _bombExist: boolean = false;
   private _number: number = 0;
+  instanceBoard: BoardControler;
+
   @property({ type: Sprite })
   private spriteUmbrella: Sprite;
   @property({ type: [SpriteFrame] })
   private listStatusUmbrella: SpriteFrame[] = [];
-
-  instanceBoard: BoardControler;
+  @property({ type: Button })
+  private btnblock: Button;
+  public get btn(): Button {
+    return this.btnblock;
+  }
+  public set btn(value: Button) {
+    this.btnblock = value;
+  }
   public get bombExist(): boolean {
     return this._bombExist;
   }
@@ -44,6 +52,12 @@ export class UmbrellaController extends Component {
   public get flagged(): boolean {
     return this._flagged;
   }
+  public onDisableBlock(): void {
+    this.btnblock.interactable = false;
+  }
+  public offDisableBlock(): void {
+    this.btnblock.interactable = true;
+  }
   public openBoom(): void {
     if (!this._open) {
       if (this._flagged) {
@@ -55,7 +69,9 @@ export class UmbrellaController extends Component {
       }
     }
   }
-
+  public onNumber(): void {
+    this.spriteUmbrella.spriteFrame = this.listStatusUmbrella[this._number];
+  }
   public openAUmbrellar(): boolean {
     if (!this._open) {
       if (!this._flagged) {

@@ -113,6 +113,13 @@ export class BoardControler extends Component {
           },
           this
         );
+        this.arrUmbrella[i][j].on(
+          Node.EventType.MOUSE_DOWN,
+          (e) => {
+            this.evenMouseDown(i, j, e);
+          },
+          this
+        );
       }
     }
   }
@@ -258,9 +265,13 @@ export class BoardControler extends Component {
     if (this.statusGame) {
       const tmp = this.arrUmbrella[x][y].getComponent(UmbrellaController);
       if (event.getButton() === 0) {
-        if (tmp.open && tmp.number > 0) {
-          if (this.checkFlagged(x, y, tmp.number))
+        if (tmp.open && tmp.number >= 0) {
+          if (this.checkFlagged(x, y, tmp.number)) {
             this.openWhenCkickNumber(x, y);
+          } else {
+            this.offDisableBlockXY(x, y);
+          }
+          tmp.onNumber();
         } else {
           if (!tmp.flagged) {
             this.openUmbrella(x, y);
@@ -275,8 +286,56 @@ export class BoardControler extends Component {
             this.flag -= 1;
           }
           this.setBoomHaveFlag(this.flag);
+        } else {
+          tmp.onNumber();
         }
         tmp.flag();
+      }
+    }
+  }
+  public offDisableBlockXY(x: number, y: number): void {
+    for (let i = x - 1; i < x + 2; i++) {
+      for (let j = y - 1; j < y + 2; j++) {
+        if (
+          !(
+            i < 0 ||
+            i > this._line - 1 ||
+            j < 0 ||
+            j > this._columns - 1 ||
+            (i == x && j == y)
+          )
+        ) {
+          let tmp2 = this.arrUmbrella[i][j].getComponent(UmbrellaController);
+          if (!tmp2.open && !tmp2.flagged) {
+            tmp2.offDisableBlock();
+          }
+        }
+      }
+    }
+  }
+  public evenMouseDown(x: number, y: number, event: EventMouse): void {
+    const tmp = this.arrUmbrella[x][y].getComponent(UmbrellaController);
+    if (event.getButton() === 0) {
+      if (tmp.open) {
+        for (let i = x - 1; i < x + 2; i++) {
+          for (let j = y - 1; j < y + 2; j++) {
+            if (
+              !(
+                i < 0 ||
+                i > this._line - 1 ||
+                j < 0 ||
+                j > this._columns - 1 ||
+                (i == x && j == y)
+              )
+            ) {
+              let tmp2 =
+                this.arrUmbrella[i][j].getComponent(UmbrellaController);
+              if (!tmp2.open && !tmp2.flagged) {
+                tmp2.onDisableBlock();
+              }
+            }
+          }
+        }
       }
     }
   }
