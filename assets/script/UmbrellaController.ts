@@ -1,5 +1,6 @@
 import {
   _decorator,
+  AudioSource,
   Button,
   Component,
   EventMouse,
@@ -28,6 +29,11 @@ export class UmbrellaController extends Component {
   private listStatusUmbrella: SpriteFrame[] = [];
   @property({ type: Button })
   private btnblock: Button;
+  @property({ type: AudioSource })
+  private audio: AudioSource;
+  // public offVolume(num: number): void {
+  //   this.audio.volume = num;
+  // }
   public get btn(): Button {
     return this.btnblock;
   }
@@ -81,6 +87,7 @@ export class UmbrellaController extends Component {
           //game over
           return true;
         } else {
+          this.audio.play();
           this._open = true;
           BoardControler.blockNotOpen += 1;
           this.spriteUmbrella.spriteFrame =

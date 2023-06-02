@@ -14,6 +14,7 @@ import {
   UITransform,
   view,
   Size,
+  AudioSource,
 } from 'cc';
 import { UmbrellaController } from './UmbrellaController';
 import { Store } from './Store';
@@ -52,6 +53,11 @@ export class BoardControler extends Component {
   private timeWin: Label | null = null;
   @property({ type: Node })
   private loseGame: Node | null = null;
+
+  @property({ type: AudioSource })
+  private audioEXplosion: AudioSource | null = null;
+  @property({ type: AudioSource })
+  private audioWin: AudioSource | null = null;
   private arrClock: Node[] = [];
 
   start() {
@@ -65,7 +71,6 @@ export class BoardControler extends Component {
     this.initClock();
     // this.resetGame.on(Node.EventType.MOUSE_UP, this.reset, this);
   }
-
   private initGame(): void {
     let store = find('store').getComponent(Store);
     this._line = store.column;
@@ -339,6 +344,7 @@ export class BoardControler extends Component {
       }
     }
   }
+  // private onAudio() {}
   private gameOver(): void {
     for (let i = 0; i < this._line; i++) {
       for (let j = 0; j < this._columns; j++) {
@@ -348,6 +354,7 @@ export class BoardControler extends Component {
     this.resetGame.spriteFrame = this.iconGame[1];
     this.statusGame = false;
     this.loseGame.active = true;
+    this.audioEXplosion.play();
     director.pause();
   }
 
@@ -361,6 +368,8 @@ export class BoardControler extends Component {
       this.timeWin.string = GameController.time.toString();
       this.statusGame = false;
       GameController.statusGame = true;
+      this.audioWin.play();
+      director.pause();
     }
   }
   update(deltaTime: number) {}

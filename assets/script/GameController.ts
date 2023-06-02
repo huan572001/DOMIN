@@ -1,5 +1,6 @@
 import {
   _decorator,
+  AudioSource,
   Button,
   Component,
   director,
@@ -28,7 +29,16 @@ export class GameController extends Component {
   private numberPrefab: Prefab | null = null;
   @property({ type: EditBox })
   private nameUser: EditBox;
+  @property({ type: Node })
+  private dropDownSetting: Node;
+  @property({ type: Node })
+  private audioOpen: Node;
+  @property({ type: Node })
+  private audioClose: Node;
+  @property({ type: [AudioSource] })
+  private arrAudio: AudioSource[] = [];
   static statusGame: boolean = null;
+
   private arrClock: Node[] = [];
   protected start(): void {
     this.startTimer();
@@ -36,6 +46,20 @@ export class GameController extends Component {
   }
   protected update(dt: number): void {
     // if (GameController.statusGame === null) this.stopTimer();
+  }
+  private onRropdownMenu(): void {
+    this.dropDownSetting.active = !this.dropDownSetting.active;
+  }
+  private onAudio(): void {
+    this.audioOpen.active = this.audioClose.active;
+    this.audioClose.active = !this.audioClose.active;
+    this.arrAudio.forEach((element) => {
+      if (this.audioOpen.active) {
+        element.volume = 1;
+      } else {
+        element.volume = 0;
+      }
+    });
   }
   private startTimer() {
     this.schedule(
