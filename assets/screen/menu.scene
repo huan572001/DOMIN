@@ -447,7 +447,7 @@
       "a": 255
     },
     "_spriteFrame": {
-      "__uuid__": "b4a9e436-7c34-4a95-b5f3-ae1fd2851d88@f9941",
+      "__uuid__": "1246bece-98b4-43e6-90f1-40936bb5e0a8@f9941",
       "__expectedType__": "cc.SpriteFrame"
     },
     "_type": 0,
@@ -1421,7 +1421,7 @@
         "__id__": 39
       }
     ],
-    "_active": true,
+    "_active": false,
     "_components": [
       {
         "__id__": 42
