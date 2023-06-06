@@ -59,6 +59,7 @@ export class BoardControler extends Component {
   private audioEXplosion: AudioSource | null = null;
   @property({ type: AudioSource })
   private audioWin: AudioSource | null = null;
+
   private arrClock: Node[] = [];
   private checkAudio: number = 0;
   start() {
@@ -80,20 +81,6 @@ export class BoardControler extends Component {
     this.flag = this._numberOfBoom;
   }
   private initBoard(): void {
-    // const sizeScreen = view.getVisibleSize();
-    // if (this._line === this._columns) {
-    //   if (sizeScreen.width > sizeScreen.height) {
-    //     this.sizeBlock = (sizeScreen.height - 75) / this._columns;
-    //   } else {
-    //     this.sizeBlock = sizeScreen.width / this._line;
-    //   }
-    // } else {
-    //   if (sizeScreen.width / this._columns > sizeScreen.height / this._line) {
-    //     this.sizeBlock = sizeScreen.height / this._line;
-    //   } else {
-    //     this.sizeBlock = sizeScreen.width / this._columns;
-    //   }
-    // }
     this.sizeBlock = 30;
     const X = this._columns * this.sizeBlock + 15;
     const Y = this._line * this.sizeBlock + 15;

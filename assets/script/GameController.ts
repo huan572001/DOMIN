@@ -37,6 +37,8 @@ export class GameController extends Component {
   private audioClose: Node;
   @property({ type: [AudioSource] })
   private arrAudio: AudioSource[] = [];
+  @property({ type: AudioSource })
+  private audioBtn: AudioSource | null = null;
   static statusGame: boolean = null;
 
   private arrClock: Node[] = [];
@@ -48,6 +50,9 @@ export class GameController extends Component {
   }
   protected update(dt: number): void {
     // if (GameController.statusGame === null) this.stopTimer();
+  }
+  private playAudioBtn(): void {
+    this.audioBtn.play();
   }
   private onRropdownMenu(): void {
     this.dropDownSetting.active = !this.dropDownSetting.active;
@@ -62,6 +67,7 @@ export class GameController extends Component {
       this.arrAudio.forEach((element) => {
         element.volume = Number(volume);
       });
+      this.audioBtn.volume = Number(volume);
     }
   }
   private onAudio(): void {
@@ -75,6 +81,7 @@ export class GameController extends Component {
     this.arrAudio.forEach((element) => {
       element.volume = volume;
     });
+    this.audioBtn.volume = volume;
     localStorage.setItem(Constant.audio, volume.toString());
   }
   private startTimer() {

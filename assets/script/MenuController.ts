@@ -7,6 +7,7 @@ import {
   find,
   Sprite,
   Label,
+  AudioSource,
 } from 'cc';
 import { Store } from './Store';
 import { UITransform } from 'cc';
@@ -25,8 +26,20 @@ export class MenuController extends Component {
   private ratingLabelName: Label;
   @property({ type: Label })
   private ratingLabelTime: Label;
+  @property({ type: AudioSource })
+  private audioBtn: AudioSource;
   start() {
     this.onRating9x9();
+    this.startAudio();
+  }
+  private startAudio(): void {
+    let volume = localStorage.getItem(Constant.audio);
+    if (volume) {
+      this.audioBtn.volume = Number(volume);
+    }
+  }
+  private playAudioBtn(): void {
+    this.audioBtn.play();
   }
   private onScreenGame9X9(): void {
     this.initGame.line = this.initGame.column = Constant.level9x9.line;
