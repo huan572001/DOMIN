@@ -354,7 +354,7 @@ export class BoardControler extends Component {
       }
     }
   }
-  private gameOver(): void {
+  public gameOver(): void {
     for (let i = 0; i < this._line; i++) {
       for (let j = 0; j < this._columns; j++) {
         this.arrUmbrella[i][j].getComponent(UmbrellaController).openBoom();
@@ -381,5 +381,9 @@ export class BoardControler extends Component {
       director.pause();
     }
   }
-  update(deltaTime: number) {}
+  update(deltaTime: number) {
+    if (GameController.time >= 999) {
+      this.gameOver();
+    }
+  }
 }
