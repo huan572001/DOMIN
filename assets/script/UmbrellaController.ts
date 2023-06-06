@@ -91,6 +91,9 @@ export class UmbrellaController extends Component {
   public onNumber(): void {
     this.spriteUmbrella.spriteFrame = this.listStatusUmbrella[this._number];
   }
+  public playAudio() {
+    this.audio.play();
+  }
   public openAUmbrellar(): boolean {
     if (!this._open) {
       if (!this._flagged) {
@@ -100,7 +103,6 @@ export class UmbrellaController extends Component {
           //game over
           return true;
         } else {
-          this.audio.play();
           this._open = true;
           BoardControler.blockNotOpen += 1;
           this.spriteUmbrella.spriteFrame =

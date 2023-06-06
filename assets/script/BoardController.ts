@@ -60,7 +60,7 @@ export class BoardControler extends Component {
   @property({ type: AudioSource })
   private audioWin: AudioSource | null = null;
   private arrClock: Node[] = [];
-
+  private checkAudio: number = 0;
   start() {
     BoardControler.blockNotOpen = 0;
   }
@@ -199,6 +199,7 @@ export class BoardControler extends Component {
     this.setBoomHaveFlag(this._numberOfBoom);
   }
   public openUmbrella(x: number, y: number) {
+    this.checkAudio += 1;
     const tmp = this.arrUmbrella[x][y].getComponent(UmbrellaController);
     const checkStatus = tmp.openAUmbrellar();
     if (checkStatus === null) {
@@ -233,6 +234,7 @@ export class BoardControler extends Component {
             (i == x && j == y)
           )
         ) {
+          this.checkAudio++;
           const status = this.arrUmbrella[i][j]
             .getComponent(UmbrellaController)
             .openAUmbrellar();
@@ -284,6 +286,10 @@ export class BoardControler extends Component {
           if (!tmp.flagged) {
             this.openUmbrella(x, y);
           }
+        }
+        if (this.checkAudio !== 0) {
+          tmp.playAudio();
+          this.checkAudio = 0;
         }
         this.checkWin();
       } else if (event.getButton() === 2) {
