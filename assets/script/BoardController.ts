@@ -186,8 +186,8 @@ export class BoardControler extends Component {
     this.setBoomHaveFlag(this._numberOfBoom);
   }
   public openUmbrella(x: number, y: number) {
-    this.checkAudio += 1;
     const tmp = this.arrUmbrella[x][y].getComponent(UmbrellaController);
+    this.checkAudio += 1;
     const checkStatus = tmp.openAUmbrellar();
     if (checkStatus === null) {
       for (let i = x - 1; i < x + 2; i++) {
@@ -264,7 +264,7 @@ export class BoardControler extends Component {
       if (event.getButton() === 0) {
         if (tmp.open && tmp.number >= 0) {
           if (this.checkFlagged(x, y, tmp.number)) {
-            this.openWhenCkickNumber(x, y);
+            if (tmp.number !== 0) this.openWhenCkickNumber(x, y);
           } else {
             this.offDisableBlockXY(x, y);
           }

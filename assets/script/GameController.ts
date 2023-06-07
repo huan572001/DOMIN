@@ -71,8 +71,6 @@ export class GameController extends Component {
     }
   }
   private onAudio(): void {
-    console.log('hihihii');
-
     let volume = 1;
     this.audioOpen.active = this.audioClose.active;
     this.audioClose.active = !this.audioClose.active;
