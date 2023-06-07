@@ -2,7 +2,7 @@
   "ver": "1.0.25",
   "importer": "image",
   "imported": true,
-  "uuid": "0804748a-34d5-4da1-9d52-cb8da0a9b04b",
+  "uuid": "9e0d72ac-c940-4a4c-816a-38861e5c87c1",
   "files": [
     ".json",
     ".png"
@@ -10,14 +10,14 @@
   "subMetas": {
     "6c48a": {
       "importer": "texture",
-      "uuid": "0804748a-34d5-4da1-9d52-cb8da0a9b04b@6c48a",
-      "displayName": "background.9",
+      "uuid": "9e0d72ac-c940-4a4c-816a-38861e5c87c1@6c48a",
+      "displayName": "setting2",
       "id": "6c48a",
       "name": "texture",
       "userData": {
         "wrapModeS": "clamp-to-edge",
         "wrapModeT": "clamp-to-edge",
-        "imageUuidOrDatabaseUri": "0804748a-34d5-4da1-9d52-cb8da0a9b04b",
+        "imageUuidOrDatabaseUri": "9e0d72ac-c940-4a4c-816a-38861e5c87c1",
         "isUuid": true,
         "visible": false,
         "minfilter": "linear",
@@ -34,26 +34,26 @@
     },
     "f9941": {
       "importer": "sprite-frame",
-      "uuid": "0804748a-34d5-4da1-9d52-cb8da0a9b04b@f9941",
-      "displayName": "background.9",
+      "uuid": "9e0d72ac-c940-4a4c-816a-38861e5c87c1@f9941",
+      "displayName": "setting2",
       "id": "f9941",
       "name": "spriteFrame",
       "userData": {
         "trimType": "auto",
         "trimThreshold": 1,
         "rotated": false,
-        "offsetX": 0,
-        "offsetY": 0,
-        "trimX": 0,
-        "trimY": 0,
-        "width": 70,
-        "height": 69,
-        "rawWidth": 70,
-        "rawHeight": 69,
-        "borderTop": 10,
-        "borderBottom": 10,
-        "borderLeft": 10,
-        "borderRight": 10,
+        "offsetX": 0.5,
+        "offsetY": -1.5,
+        "trimX": 2,
+        "trimY": 4,
+        "width": 182,
+        "height": 182,
+        "rawWidth": 185,
+        "rawHeight": 187,
+        "borderTop": 0,
+        "borderBottom": 0,
+        "borderLeft": 0,
+        "borderRight": 0,
         "packable": true,
         "pixelsToUnit": 100,
         "pivotX": 0.5,
@@ -61,17 +61,17 @@
         "meshType": 0,
         "vertices": {
           "rawPosition": [
-            -35,
-            -34.5,
+            -91,
+            -91,
             0,
-            35,
-            -34.5,
+            91,
+            -91,
             0,
-            -35,
-            34.5,
+            -91,
+            91,
             0,
-            35,
-            34.5,
+            91,
+            91,
             0
           ],
           "indexes": [
@@ -83,38 +83,38 @@
             3
           ],
           "uv": [
-            0,
-            69,
-            70,
-            69,
-            0,
-            0,
-            70,
-            0
-          ],
-          "nuv": [
-            0,
-            0,
+            2,
+            183,
+            184,
+            183,
+            2,
             1,
-            0,
-            0,
-            1,
-            1,
+            184,
             1
           ],
+          "nuv": [
+            0.010810810810810811,
+            0.0053475935828877,
+            0.9945945945945946,
+            0.0053475935828877,
+            0.010810810810810811,
+            0.9786096256684492,
+            0.9945945945945946,
+            0.9786096256684492
+          ],
           "minPos": [
-            -35,
-            -34.5,
+            -91,
+            -91,
             0
           ],
           "maxPos": [
-            35,
-            34.5,
+            91,
+            91,
             0
           ]
         },
         "isUuid": true,
-        "imageUuidOrDatabaseUri": "0804748a-34d5-4da1-9d52-cb8da0a9b04b@6c48a",
+        "imageUuidOrDatabaseUri": "9e0d72ac-c940-4a4c-816a-38861e5c87c1@6c48a",
         "atlasUuid": ""
       },
       "ver": "1.0.11",
@@ -128,10 +128,7 @@
   "userData": {
     "type": "sprite-frame",
     "fixAlphaTransparencyArtifacts": true,
-    "hasAlpha": false,
-    "redirect": "0804748a-34d5-4da1-9d52-cb8da0a9b04b@f9941",
-    "compressSettings": {
-      "useCompressTexture": false
-    }
+    "hasAlpha": true,
+    "redirect": "9e0d72ac-c940-4a4c-816a-38861e5c87c1@f9941"
   }
 }

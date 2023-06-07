@@ -82,8 +82,8 @@ export class BoardControler extends Component {
   }
   private initBoard(): void {
     this.sizeBlock = 30;
-    const X = this._columns * this.sizeBlock + 15;
-    const Y = this._line * this.sizeBlock + 15;
+    const X = this._columns * this.sizeBlock + 20;
+    const Y = this._line * this.sizeBlock + 20;
     const contentSize = new Size(X, Y);
     this.menuFrame.setContentSize(new Size(X, 70));
     this.locasion.setContentSize(contentSize);
@@ -95,8 +95,8 @@ export class BoardControler extends Component {
         this.arrUmbrella[i][j] = instantiate(this.umbrellaPrefab);
         this.umbrellar.addChild(this.arrUmbrella[i][j]);
         this.arrUmbrella[i][j].setPosition(
-          -X / 2 + j * this.sizeBlock + this.sizeBlock / 2 + 7,
-          Y / 2 - i * this.sizeBlock - this.sizeBlock / 2 - 7
+          -X / 2 + j * this.sizeBlock + this.sizeBlock / 2 + 10,
+          Y / 2 - i * this.sizeBlock - this.sizeBlock / 2 - 10
         );
         this.arrUmbrella[i][j]
           .getComponent(UITransform)
