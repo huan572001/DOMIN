@@ -39,6 +39,7 @@ export class UmbrellaController extends Component {
         this.audio.volume = 0;
       }
     }
+    this.spriteUmbrella.spriteFrame = this.listStatusUmbrella[10];
   }
   public offVolume(): void {
     if (this.audio.volume === 0) {
@@ -72,10 +73,10 @@ export class UmbrellaController extends Component {
     return this._flagged;
   }
   public onDisableBlock(): void {
-    this.btnblock.interactable = false;
+    this.spriteUmbrella.spriteFrame = this.listStatusUmbrella[0];
   }
   public offDisableBlock(): void {
-    this.btnblock.interactable = true;
+    this.spriteUmbrella.spriteFrame = this.listStatusUmbrella[10];
   }
   public openBoom(): void {
     if (!this._open) {

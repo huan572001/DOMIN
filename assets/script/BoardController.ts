@@ -15,6 +15,11 @@ import {
   view,
   Size,
   AudioSource,
+  log,
+  Input,
+  input,
+  Vec3,
+  Camera,
 } from 'cc';
 import { UmbrellaController } from './UmbrellaController';
 import { Store } from './Store';
@@ -59,11 +64,14 @@ export class BoardControler extends Component {
   private audioEXplosion: AudioSource | null = null;
   @property({ type: AudioSource })
   private audioWin: AudioSource | null = null;
-
+  @property({ type: Camera })
+  private camera: Camera;
   private arrClock: Node[] = [];
   private checkAudio: number = 0;
+  private blockOnClick: { x: number; y: number } = null;
   start() {
     BoardControler.blockNotOpen = 0;
+    input.on(Input.EventType.MOUSE_UP, this.EvenUmbrella, this);
   }
   protected onLoad(): void {
     this.initGame();
@@ -87,6 +95,8 @@ export class BoardControler extends Component {
     const contentSize = new Size(X, Y);
     this.menuFrame.setContentSize(new Size(X, 70));
     this.locasion.setContentSize(contentSize);
+    // this.umbrellar.on(Node.EventType.MOUSE_DOWN, this.onClickBoard, this);
+    // this.umbrellar.on(Node.EventType.MOUSE_UP, this.EvenUmbrella, this);
 
     this.umbrellar.getComponent(UITransform).setContentSize(contentSize);
     for (let i = 0; i < this._line; i++) {
@@ -103,9 +113,7 @@ export class BoardControler extends Component {
           .setContentSize(this.sizeBlock, this.sizeBlock);
         this.arrUmbrella[i][j].on(
           Node.EventType.MOUSE_UP,
-          (e) => {
-            this.EvenUmbrella(i, j, e);
-          },
+          this.EvenUmbrella,
           this
         );
         this.arrUmbrella[i][j].on(
@@ -118,6 +126,30 @@ export class BoardControler extends Component {
       }
     }
   }
+  // private onClickBoard(event: EventMouse): void {
+  //   const X = this._columns * this.sizeBlock + 20;
+  //   const Y = this._line * this.sizeBlock + 20;
+  //   let pos = new Vec3();
+  //   pos = this.camera.screenToWorld(
+  //     new Vec3(event.getLocationX(), event.getLocationY(), 0),
+  //     pos
+  //   );
+
+  //   let localPos = new Vec3();
+  //   this.umbrellar.inverseTransformPoint(localPos, pos);
+
+  //   let x =
+  //     Math.floor(
+  //       (localPos.x + this.sizeBlock / 2 + X / 2 + 10) / this.sizeBlock
+  //     ) - 1;
+  //   let y =
+  //     Math.floor(
+  //       (-localPos.y + this.sizeBlock / 2 + Y / 2 + 10) / this.sizeBlock
+  //     ) - 1;
+  //   if (!(x < 0 || x >= this._columns || y < 0 || y >= this._line)) {
+  //     this.evenMouseDown(y, x, event);
+  //   }
+  // }
   private initBoom(): void {
     let count: number = 0;
     while (count < this._numberOfBoom) {
@@ -258,39 +290,45 @@ export class BoardControler extends Component {
     }
     return false;
   }
-  public EvenUmbrella(x: number, y: number, event: EventMouse): void {
-    if (this.statusGame) {
-      const tmp = this.arrUmbrella[x][y].getComponent(UmbrellaController);
-      if (event.getButton() === 0) {
-        if (tmp.open && tmp.number >= 0) {
-          if (this.checkFlagged(x, y, tmp.number)) {
-            if (tmp.number !== 0) this.openWhenCkickNumber(x, y);
+  public EvenUmbrella(event: EventMouse): void {
+    let x, y;
+    x = this.blockOnClick.x;
+    y = this.blockOnClick.y;
+
+    if (x >= 0 && y >= 0) {
+      if (this.statusGame) {
+        const tmp = this.arrUmbrella[x][y].getComponent(UmbrellaController);
+        if (event.getButton() === 0) {
+          if (tmp.open && tmp.number >= 0) {
+            if (this.checkFlagged(x, y, tmp.number)) {
+              if (tmp.number !== 0) this.openWhenCkickNumber(x, y);
+            } else {
+              this.offDisableBlockXY(x, y);
+            }
+            tmp.onNumber();
           } else {
-            this.offDisableBlockXY(x, y);
+            if (!tmp.flagged) {
+              this.openUmbrella(x, y);
+            }
           }
-          tmp.onNumber();
-        } else {
-          if (!tmp.flagged) {
-            this.openUmbrella(x, y);
+          if (this.checkAudio !== 0) {
+            tmp.playAudio();
+            this.checkAudio = 0;
           }
-        }
-        if (this.checkAudio !== 0) {
-          tmp.playAudio();
-          this.checkAudio = 0;
-        }
-        this.checkWin();
-      } else if (event.getButton() === 2) {
-        if (!tmp.open) {
-          if (tmp.flagged) {
-            this.flag += 1;
+          this.checkWin();
+        } else if (event.getButton() === 2) {
+          if (!tmp.open) {
+            if (tmp.flagged) {
+              this.flag += 1;
+            } else {
+              this.flag -= 1;
+            }
+            this.setBoomHaveFlag(this.flag);
           } else {
-            this.flag -= 1;
+            tmp.onNumber();
           }
-          this.setBoomHaveFlag(this.flag);
-        } else {
-          tmp.onNumber();
+          tmp.flag();
         }
-        tmp.flag();
       }
     }
   }
@@ -315,6 +353,9 @@ export class BoardControler extends Component {
     }
   }
   public evenMouseDown(x: number, y: number, event: EventMouse): void {
+    this.blockOnClick = { x: x, y: y };
+    console.log(x, y);
+
     const tmp = this.arrUmbrella[x][y].getComponent(UmbrellaController);
     if (event.getButton() === 0) {
       if (tmp.open) {
