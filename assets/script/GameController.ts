@@ -113,51 +113,8 @@ export class GameController extends Component {
     director.resume();
     director.loadScene(Constant.screenGame);
   }
-  private savePoint() {
-    let store = find('store').getComponent(Store);
-    let arrTop: TopUser[] = [];
-    let level: string;
-    if (store.boom === 10) {
-      arrTop = JSON.parse(
-        localStorage.getItem(Constant.beginner)
-          ? localStorage.getItem(Constant.beginner)
-          : '[]'
-      );
-      level = Constant.beginner;
-    } else if (store.boom === 40) {
-      arrTop = JSON.parse(
-        localStorage.getItem(Constant.Intermediate)
-          ? localStorage.getItem(Constant.Intermediate)
-          : '[]'
-      );
-      level = Constant.Intermediate;
-    } else {
-      arrTop = JSON.parse(
-        localStorage.getItem(Constant.Expert)
-          ? localStorage.getItem(Constant.Expert)
-          : '[]'
-      );
-      level = Constant.Expert;
-    }
-
-    arrTop.push({
-      name: this.nameUser.string,
-      time: GameController.time,
-    });
-
-    arrTop.sort(function (a, b) {
-      if (a.time > b.time) return 1;
-      if (a.time < b.time) return -1;
-      return 0;
-    });
-    if (arrTop.length > 10) {
-      arrTop = arrTop.slice(0, 9);
-    }
-
-    localStorage.setItem(level, JSON.stringify(arrTop));
-    this.reset();
-  }
   private openMenu(): void {
+    director.resume();
     find('store').removeFromParent();
     director.loadScene('menu');
   }
