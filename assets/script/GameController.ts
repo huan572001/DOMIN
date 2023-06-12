@@ -96,7 +96,7 @@ export class GameController extends Component {
         }
       },
       1,
-      999,
+      9999,
       1
     );
   }
