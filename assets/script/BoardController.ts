@@ -298,8 +298,8 @@ export class BoardControler extends Component {
   }
   public EvenUmbrella(event: EventMouse): void {
     let x, y;
-    x = this.blockOnClick.x;
-    y = this.blockOnClick.y;
+    x = this.blockOnClick?.x;
+    y = this.blockOnClick?.y;
 
     if (x >= 0 && y >= 0) {
       if (this.statusGame) {
@@ -422,9 +422,16 @@ export class BoardControler extends Component {
     this.statusGame = false;
     director.pause();
   }
+  public checkOpenPopup(): boolean {
+    if (this.winGame.active || this.loseGame.active) {
+      return true;
+    }
+    return false;
+  }
   update(deltaTime: number) {
-    if (GameController.time >= 999) {
+    if (GameController.time === 9999) {
       this.gameOver();
+      GameController.time = 0;
     }
   }
 }

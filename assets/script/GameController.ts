@@ -53,8 +53,11 @@ export class GameController extends Component {
     this.audioBtn.play();
   }
   private onRropdownMenu(): void {
-    this.node.getComponent(BoardControler).statuGame =
-      !this.node.getComponent(BoardControler).statuGame;
+    if (!this.node.getComponent(BoardControler).checkOpenPopup()) {
+      this.node.getComponent(BoardControler).statuGame =
+        this.dropDownSetting.active;
+    }
+
     this.dropDownSetting.active = !this.dropDownSetting.active;
   }
   private startAudio(): void {
@@ -90,18 +93,18 @@ export class GameController extends Component {
         GameController.time += 1;
         let tmp = GameController.time;
         // console.log(this.time);
-        for (let i = 2; i >= 0; i--) {
+        for (let i = 3; i >= 0; i--) {
           this.arrClock[i].getComponent(Clock).setNumber(tmp % 10);
           tmp = Math.floor(tmp / 10);
         }
       },
       1,
-      9999,
+      99999,
       1
     );
   }
   private initClock(): void {
-    for (let i = 0; i < 3; i++) {
+    for (let i = 0; i < 4; i++) {
       this.arrClock[i] = instantiate(this.numberPrefab);
       this.clock.addChild(this.arrClock[i]);
       this.arrClock[i].setPosition(i * 13, this.clock.position.y);
