@@ -35,6 +35,7 @@ export class BoardControler extends Component {
   private flag: number;
   static blockNotOpen: number;
   private statusGame: boolean = true;
+
   private sizeBlock: number;
   @property({ type: Prefab })
   private umbrellaPrefab: Prefab | null = null;
@@ -64,11 +65,16 @@ export class BoardControler extends Component {
   private audioEXplosion: AudioSource | null = null;
   @property({ type: AudioSource })
   private audioWin: AudioSource | null = null;
-  @property({ type: Camera })
-  private camera: Camera;
+
   private arrClock: Node[] = [];
   private checkAudio: number = 0;
   private blockOnClick: { x: number; y: number } = null;
+  public get statuGame(): boolean {
+    return this.statusGame;
+  }
+  public set statuGame(value: boolean) {
+    this.statusGame = value;
+  }
   start() {
     BoardControler.blockNotOpen = 0;
     input.on(Input.EventType.MOUSE_UP, this.EvenUmbrella, this);
@@ -354,26 +360,26 @@ export class BoardControler extends Component {
   }
   public evenMouseDown(x: number, y: number, event: EventMouse): void {
     this.blockOnClick = { x: x, y: y };
-    console.log(x, y);
-
-    const tmp = this.arrUmbrella[x][y].getComponent(UmbrellaController);
-    if (event.getButton() === 0) {
-      if (tmp.open) {
-        for (let i = x - 1; i < x + 2; i++) {
-          for (let j = y - 1; j < y + 2; j++) {
-            if (
-              !(
-                i < 0 ||
-                i > this._line - 1 ||
-                j < 0 ||
-                j > this._columns - 1 ||
-                (i == x && j == y)
-              )
-            ) {
-              let tmp2 =
-                this.arrUmbrella[i][j].getComponent(UmbrellaController);
-              if (!tmp2.open && !tmp2.flagged) {
-                tmp2.onDisableBlock();
+    if (this.statusGame) {
+      const tmp = this.arrUmbrella[x][y].getComponent(UmbrellaController);
+      if (event.getButton() === 0) {
+        if (tmp.open) {
+          for (let i = x - 1; i < x + 2; i++) {
+            for (let j = y - 1; j < y + 2; j++) {
+              if (
+                !(
+                  i < 0 ||
+                  i > this._line - 1 ||
+                  j < 0 ||
+                  j > this._columns - 1 ||
+                  (i == x && j == y)
+                )
+              ) {
+                let tmp2 =
+                  this.arrUmbrella[i][j].getComponent(UmbrellaController);
+                if (!tmp2.open && !tmp2.flagged) {
+                  tmp2.onDisableBlock();
+                }
               }
             }
           }
@@ -395,10 +401,9 @@ export class BoardControler extends Component {
       }
     }
     this.resetGame.spriteFrame = this.iconGame[1];
-    this.statusGame = false;
     this.loseGame.active = true;
     this.audioEXplosion.play();
-    director.pause();
+    this.pauseGame();
   }
 
   private checkWin(): void {
@@ -409,11 +414,13 @@ export class BoardControler extends Component {
       this.resetGame.spriteFrame = this.iconGame[2];
       this.winGame.active = true;
       this.timeWin.string = GameController.time.toString();
-      this.statusGame = false;
-      GameController.statusGame = true;
+      this.pauseGame();
       this.audioWin.play();
-      director.pause();
     }
+  }
+  public pauseGame(): void {
+    this.statusGame = false;
+    director.pause();
   }
   update(deltaTime: number) {
     if (GameController.time >= 999) {

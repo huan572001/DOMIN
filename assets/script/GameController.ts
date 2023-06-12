@@ -15,6 +15,7 @@ import {
 import { Clock } from './Clock';
 import { Store } from './Store';
 import { Constant } from './constant';
+import { BoardControler } from './BoardController';
 const { ccclass, property } = _decorator;
 type TopUser = {
   name: string;
@@ -27,8 +28,6 @@ export class GameController extends Component {
   private clock: Node;
   @property({ type: Prefab })
   private numberPrefab: Prefab | null = null;
-  @property({ type: EditBox })
-  private nameUser: EditBox;
   @property({ type: Node })
   private dropDownSetting: Node;
   @property({ type: Node })
@@ -39,7 +38,6 @@ export class GameController extends Component {
   private arrAudio: AudioSource[] = [];
   @property({ type: AudioSource })
   private audioBtn: AudioSource | null = null;
-  static statusGame: boolean = null;
 
   private arrClock: Node[] = [];
   protected start(): void {
@@ -55,6 +53,8 @@ export class GameController extends Component {
     this.audioBtn.play();
   }
   private onRropdownMenu(): void {
+    this.node.getComponent(BoardControler).statuGame =
+      !this.node.getComponent(BoardControler).statuGame;
     this.dropDownSetting.active = !this.dropDownSetting.active;
   }
   private startAudio(): void {
@@ -108,7 +108,6 @@ export class GameController extends Component {
     }
   }
   public reset(): void {
-    GameController.statusGame = null;
     GameController.time = 0;
     director.resume();
     director.loadScene(Constant.screenGame);
