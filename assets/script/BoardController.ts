@@ -336,6 +336,7 @@ export class BoardControler extends Component {
           tmp.flag();
         }
       }
+      this.checkCountFlag();
     }
   }
   public offDisableBlockXY(x: number, y: number): void {
@@ -417,6 +418,19 @@ export class BoardControler extends Component {
       this.pauseGame();
       this.audioWin.play();
     }
+  }
+  private checkCountFlag(): void {
+    let n = 0;
+    for (let i = 0; i < this._line; i++) {
+      for (let j = 0; j < this._columns; j++) {
+        if (this.arrUmbrella[i][j].getComponent(UmbrellaController).flagged) {
+          n++;
+        }
+      }
+    }
+    console.log(n);
+    this.flag = 10 - n > 0 ? 10 - n : 0;
+    this.setBoomHaveFlag(this.flag);
   }
   public pauseGame(): void {
     this.statusGame = false;

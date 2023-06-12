@@ -114,7 +114,13 @@ export class UmbrellaController extends Component {
         }
       } else {
         if (!this._bombExist) {
-          this.spriteUmbrella.spriteFrame = this.listStatusUmbrella[13];
+          this.spriteUmbrella.spriteFrame =
+            this.listStatusUmbrella[this._number];
+          this._flagged = false;
+          this._open = true;
+          if (this._number === 0) {
+            return null;
+          }
         }
       }
     }
