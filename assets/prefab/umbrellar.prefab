@@ -232,7 +232,7 @@
     },
     "clickEvents": [],
     "_interactable": true,
-    "_transition": 2,
+    "_transition": 1,
     "_normalColor": {
       "__type__": "cc.Color",
       "r": 255,
@@ -249,9 +249,9 @@
     },
     "_pressedColor": {
       "__type__": "cc.Color",
-      "r": 255,
-      "g": 8,
-      "b": 8,
+      "r": 199,
+      "g": 199,
+      "b": 199,
       "a": 255
     },
     "_disabledColor": {

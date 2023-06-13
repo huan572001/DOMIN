@@ -428,8 +428,7 @@ export class BoardControler extends Component {
         }
       }
     }
-    console.log(n);
-    this.flag = 10 - n > 0 ? 10 - n : 0;
+    this.flag = this._numberOfBoom - n > 0 ? this._numberOfBoom - n : 0;
     this.setBoomHaveFlag(this.flag);
   }
   public pauseGame(): void {
